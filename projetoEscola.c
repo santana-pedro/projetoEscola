@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>  
 #define MAX_STR 255
 #define MAX 250
 #define TRUE -1
@@ -40,113 +41,115 @@ Pessoa professor[MAX];
 Disciplina disciplina[MAX];
 
 //VALIDACOES
+
 int validarCpfAluno(){
-    int achouAluno = FALSE, achouProfessor = FALSE;
-    if(indiceAluno > 4){
-        for(int cont = 0; cont < indiceAluno; cont++){
-            if(aluno[cont].tipo == 'c' && aluno[cont].cpf == aluno[indiceAluno - 1].cpf){
-                achouAluno = TRUE;
-                printf("Cpf inválido, já existente \n");
-                indiceAluno -= 2;
-                return -1;
-            }
-        }
-    }
+    int achouProfessor = FALSE, achouAluno = FALSE;
     if(indiceProfessor > 1){
         for(int cont = 0; cont < indiceProfessor; cont++){
-            if(professor[cont].tipo == 'c' && professor[cont].cpf == aluno[indiceAluno - 1].cpf){
+            if(professor[cont].tipo == 'c' && aluno[indiceAluno].tipo == 'c' && professor[cont].cpf == aluno[indiceAluno].cpf){
                 achouProfessor = TRUE;
-                printf("Cpf inválido, já existente \n");
-                indiceAluno -= 2;
-                return -1;
+                printf("Cpf já existente, inválido \n");
+                break;
             }
         }
     }
-    if(achouProfessor == FALSE && achouAluno == FALSE){
-        return 0;
+    if(achouProfessor == FALSE && indiceAluno > 4){
+        for(int cont = 0; cont < indiceAluno; cont++){
+            if(aluno[cont].tipo == 'c' && aluno[indiceAluno].tipo == 'c' && aluno[cont].cpf == aluno[indiceAluno].cpf){
+                achouAluno = TRUE;
+                printf("Cpf já existente, inválido \n");
+                break;
+            }
+        }
     }
+    if(achouProfessor == TRUE || achouAluno == TRUE){
+        return TRUE;
+    }else if(achouProfessor == FALSE && achouAluno == FALSE){
+        return FALSE;
+    } 
 }
 
 int validarCpfProfessor(){
-    int achouAluno = FALSE, achouProfessor = FALSE;
+    int achouProfessor = FALSE, achouAluno = FALSE;
     if(indiceProfessor > 4){
         for(int cont = 0; cont < indiceProfessor; cont++){
-            if(professor[cont].tipo == 'c' && professor[cont].cpf == professor[indiceProfessor - 1].cpf){
+            if(professor[cont].tipo == 'c' && professor[indiceProfessor].tipo == 'c' && professor[cont].cpf == professor[indiceProfessor].cpf){
                 achouProfessor = TRUE;
-                printf("Cpf inválido, já existente \n");
-                indiceProfessor -= 2;
-                return -1;
+                printf("Cpf já existente, inválido \n");
+                break;
             }
         }
     }
-    if(indiceAluno > 1){
+    if(achouProfessor == FALSE && indiceAluno > 1){
         for(int cont = 0; cont < indiceAluno; cont++){
-            if(aluno[cont].tipo == 'c' && aluno[cont].cpf == professor[indiceProfessor - 1].cpf){
+            if(aluno[cont].tipo == 'c' && professor[indiceProfessor].tipo == 'c' && aluno[cont].cpf == professor[indiceProfessor].cpf){
                 achouAluno = TRUE;
-                printf("Cpf inválido, já existente \n");
-                indiceProfessor -= 2;
-                return -1;
+                printf("Cpf já existente, inválido \n");
+                break;
             }
         }
     }
-    if(achouProfessor == FALSE && achouAluno == FALSE){
-        return 0;
-    }
+    if(achouProfessor == TRUE || achouAluno == TRUE){
+        return TRUE;
+    }else if(achouProfessor == FALSE && achouAluno == FALSE){
+        return FALSE;
+    } 
 }
 
 int validarMatriculaAluno(){
-    int achouAluno = FALSE, achouProfessor = FALSE;
-    if(indiceAluno > 4){
-        for(int cont = 0; cont < indiceAluno; cont++){
-            if(aluno[cont].tipo == 'm' && aluno[cont].matricula == aluno[indiceAluno - 1].matricula){
-                achouAluno = TRUE;
-                printf("Matrícula inválida, já existente \n");
-                indiceAluno -= 1;
-                return -1;
-            }
-        }
-    }
+    int achouProfessor = FALSE, achouAluno = FALSE;
     if(indiceProfessor > 1){
         for(int cont = 0; cont < indiceProfessor; cont++){
-            if(professor[cont].tipo == 'm' && professor[cont].matricula == aluno[indiceProfessor - 1].matricula){
+            if(professor[cont].tipo == 'm' && aluno[indiceAluno].tipo == 'm' && professor[cont].matricula == aluno[indiceAluno].matricula){
                 achouProfessor = TRUE;
-                printf("Mátricula inválida, já existente \n");
-                indiceAluno -= 1;
-                return -1;
+                printf("Matrícula já existente, inválida \n");
+                break;
             }
         }
     }
-    if(achouProfessor == FALSE && achouAluno == FALSE){
-        return 0;
+    if(achouProfessor == FALSE && indiceAluno > 4){
+        for(int cont = 0; cont < indiceAluno; cont++){
+            if(aluno[cont].tipo == 'm' && aluno[indiceAluno].tipo == 'm' && aluno[cont].matricula == aluno[indiceAluno].matricula){
+                achouAluno = TRUE;
+                printf("Matrícula já existente, inválida \n");
+                break;
+            }
+        }
     }
+    if(achouProfessor == TRUE || achouAluno == TRUE){
+        return TRUE;
+    }else if(achouProfessor == FALSE && achouAluno == FALSE){
+        return FALSE;
+    } 
 }
 
 int validarMatriculaProfessor(){
-    int achouAluno = FALSE, achouProfessor = FALSE;
-    if(indiceAluno > 1){
-        for(int cont = 0; cont < indiceAluno; cont++){
-            if(aluno[cont].tipo == 'm' && aluno[cont].matricula == professor[indiceProfessor - 1].matricula){
-                achouAluno = TRUE;
-                printf("Matrícula inválida, já existente \n");
-                indiceProfessor -= 1;
-                return -1;
-            }
-        }
-    }
+    int achouProfessor = FALSE, achouAluno = FALSE;
     if(indiceProfessor > 4){
         for(int cont = 0; cont < indiceProfessor; cont++){
-            if(professor[cont].tipo == 'm' && professor[cont].matricula == professor[indiceProfessor - 1].matricula){
+            if(professor[cont].tipo == 'm' && professor[indiceProfessor].tipo == 'm' && professor[cont].matricula == professor[indiceProfessor].matricula){
                 achouProfessor = TRUE;
-                printf("Mátricula inválida, já existente \n");
-                indiceProfessor -= 1;
-                return -1;
+                printf("Matrícula já existente, inválida \n");
+                break;
             }
         }
     }
-    if(achouProfessor == FALSE && achouAluno == FALSE){
-        return 0;
+    if(achouProfessor == FALSE && indiceAluno > 1){
+        for(int cont = 0; cont < indiceAluno; cont++){
+            if(aluno[cont].tipo == 'm' && professor[indiceProfessor].tipo == 'm' && aluno[cont].matricula == professor[indiceProfessor].matricula){
+                achouAluno = TRUE;
+                printf("Matrícula já existente, inválida \n");
+                break;
+            }
+        }
     }
+    if(achouProfessor == TRUE || achouAluno == TRUE){
+        return TRUE;
+    }else if(achouProfessor == FALSE && achouAluno == FALSE){
+        return FALSE;
+    } 
 }
+
 //TROCA SEM NOME ALUNO
 void fazerTrocaAluno(int cont, int cont2){
     int trocaM, trocaC;
@@ -247,10 +250,10 @@ void cadastroAluno(){
         return;
     }
     aluno[indiceAluno].tipo = 'm';
-    indiceAluno++;
-    if(validarMatriculaAluno() == -1){
+    if(validarMatriculaAluno() == TRUE){
         return;
-    }   
+    }
+    indiceAluno++;
     //CPF
     printf("INDICE ALUNO: %d\n", indiceAluno);
     printf("Informe o cpf (apenas numeros) do aluno: ");
@@ -261,15 +264,15 @@ void cadastroAluno(){
         return;
     }
     aluno[indiceAluno].tipo = 'c';
-    indiceAluno++;
-    if(validarCpfAluno() == -1){
+    if(validarCpfAluno() == TRUE){
         return;
     }
+    indiceAluno++;
     //DATA NASCIMENTO
     printf("INDICE ALUNO: %d\n", indiceAluno);
     printf("Informe a data de nascimento(apenas numeros espaçados: xx xx xxxx) do aluno: ");
     scanf("%d %d %d%*c" ,&aluno[indiceAluno].dataNascimento.dia ,&aluno[indiceAluno].dataNascimento.mes ,&aluno[indiceAluno].dataNascimento.ano);
-    if(aluno[indiceAluno].dataNascimento.dia < 0 || aluno[indiceAluno].dataNascimento.mes < 0 || aluno[indiceAluno].dataNascimento.ano < 0){
+    if(aluno[indiceAluno].dataNascimento.dia < 1 || aluno[indiceAluno].dataNascimento.dia > 31 || aluno[indiceAluno].dataNascimento.mes < 1 || aluno[indiceAluno].dataNascimento.mes > 12 || aluno[indiceAluno].dataNascimento.ano < 1 || aluno[indiceAluno].dataNascimento.ano > 2025){
         printf("Data de nascimento inválida \n");
         indiceAluno -= 2;
         return;
@@ -573,10 +576,10 @@ void cadastroProfessor(){
         return;
     }
     professor[indiceProfessor].tipo = 'm';
-    indiceProfessor++;
-    if(validarMatriculaProfessor() == -1){
+    if(validarMatriculaProfessor() == TRUE){
         return;
     }
+    indiceProfessor++;
     //CPF
     printf("INDICE PROFESSOR: %d\n", indiceProfessor);
     printf("Informe o cpf (apenas numeros) do professor: ");
@@ -587,15 +590,15 @@ void cadastroProfessor(){
         return;
     }
     professor[indiceProfessor].tipo = 'c';
-    indiceProfessor++;
-    if(validarCpfProfessor() == -1){
+    if(validarCpfProfessor() == TRUE){
         return;
     }
+    indiceProfessor++;
     //DATA NASCIMENTO
     printf("INDICE PROFESSOR: %d\n", indiceProfessor);
     printf("Informe a data de nascimento(apenas numeros espaçados: xx xx xxxx) do professor: ");
     scanf("%d %d %d%*c" ,&professor[indiceProfessor].dataNascimento.dia ,&professor[indiceProfessor].dataNascimento.mes ,&professor[indiceProfessor].dataNascimento.ano);
-    if(professor[indiceProfessor].dataNascimento.dia < 0 || professor[indiceProfessor].dataNascimento.mes < 0 || professor[indiceProfessor].dataNascimento.ano < 0){
+    if(professor[indiceProfessor].dataNascimento.dia < 1 || professor[indiceProfessor].dataNascimento.dia > 31 || professor[indiceProfessor].dataNascimento.mes < 1 || professor[indiceProfessor].dataNascimento.mes > 12 || professor[indiceProfessor].dataNascimento.ano < 1 || professor[indiceProfessor].dataNascimento.ano > 2025){
         printf("Data de nascimento inválida \n");
         indiceProfessor -= 2;
         return;
@@ -627,8 +630,8 @@ void cadastroProfessor(){
 }
 
 void excluirProfessor(){
-    if(indiceAluno < 1){
-        printf("É necessário ao menos 1 aluno para excluir \n");
+    if(indiceProfessor < 1){
+        printf("É necessário ao menos 1 professor para excluir \n");
         return;
     }
     int achouProfessor = FALSE;
@@ -1207,69 +1210,89 @@ void menuDisciplina(int voltar){
 
 void buscarPessoa(){
     if(indiceAluno < 1 && indiceProfessor < 1){
-        printf("É necessário ao menos 1 pessoa para consultar os aniversariantes do mês \n");
+        printf("É necessário ao menos 1 pessoa para realizar uma busca \n");
         return;
     }
     char buscaPessoa[MAX_STR];
     int achouAluno = FALSE, achouProfessor = FALSE;
-    printf("Informe ao menos 3 letras para procurar uma pessoa: ");
+    printf("Informe ao menos 3 letras para realizar uma busca: ");
     fgets(buscaPessoa, MAX_STR, stdin);
-    buscaPessoa[strcspn(buscaPessoa, '\n')] = '\0';
-    //ALUNO
-    printf("Alunos: ");
+    buscaPessoa[strcspn(buscaPessoa, "\n")] = '\0';
+    //ALUNOS
     for(int cont = 0; cont < indiceAluno; cont++){
-        if(aluno[cont].tipo == 'n' && strstr(aluno[cont].nome, buscaPessoa) != NULL){
+        if(aluno[cont].tipo == 'n' && strstr(aluno[cont].nome, buscaPessoa)){
             achouAluno = TRUE;
-            printf("%s ",aluno[cont].nome);
+            printf("Aluno: %s ",aluno[cont].nome);
         }
     }
     if(achouAluno == FALSE){
-        printf("Nenhum aluno possui essa sequência alfabética no nome \n");
+        printf("Nenhum aluno encontrado");
     }
     printf("\n");
-    //PROFESSOR
-    printf("Professores: ");
+    //PROFESSORES
     for(int cont = 0; cont < indiceProfessor; cont++){
-        if(professor[cont].tipo == 'n' && strstr(professor[cont].nome, buscaPessoa) != NULL){
+        if(professor[cont].tipo == 'n' && strstr(professor[cont].nome, buscaPessoa)){
             achouProfessor = TRUE;
-            printf("%s ",professor[cont].nome);
+            printf("Professor: %s ",professor[cont].nome);
         }
     }
     if(achouProfessor == FALSE){
-        printf("Nenhum professor possui essa sequência alfabética no nome \n");
+        printf("Nenhum professor encontrado");
     }
+    printf("\n");
 }
 
 void aniversariantes(){
     if(indiceAluno < 1 && indiceProfessor < 1){
-        printf("É necessário ao menos 1 pessoa para consultar os aniversariantes do mês \n");
+        printf("É necessário ao menos 1 pessoa para listar os aniversariantes do mês \n");
         return;
     }
-    int mes, achouAluno = FALSE, achouProfessor = FALSE;
-    printf("Informe o mês que deseja saber os aniversariantes: ");
-    scanf("%d%*c", &mes);
-    //ALUNOS
-    printf("Alunos que fazem aniversário esse mês: ");
+    char meses[12][30] = {"janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"};
+    char mesString[MAX_STR];
+    int mesNum, achouProfessor = FALSE, achouAluno = FALSE, achouMes = FALSE;
+    printf("Informe o mês para saber os aniversariantes: ");
+    fgets(mesString, MAX_STR, stdin);
+    mesString[strcspn(mesString, "\n")] = '\0';
+    for(int cont = 0; cont < 12; cont++){
+        if(strcmp(mesString, meses[cont]) == 0){
+            achouMes = TRUE;
+            mesNum = cont + 1;
+            printf("%d \n", mesNum);
+            break;
+        }
+    }
+    if(achouMes == FALSE){
+        mesNum = atoi(mesString);
+        printf("%d \n", mesNum);
+        if(mesNum < 1 || mesNum > 12){
+            printf("Mês inválido \n");
+            return;
+        }
+    }
+    //ALUNO
+    printf("Alunos que fazem aniversário nesse mes: ");
     for(int cont = 0; cont < indiceAluno; cont++){
-        if(aluno[cont].tipo == 'm' && aluno[cont + 2].dataNascimento.mes == mes){
+        if(aluno[cont].tipo == 'd' && aluno[cont].dataNascimento.mes == mesNum){
             achouAluno = TRUE;
-            printf("%s ", aluno[cont + 4].nome);
+            printf("%s ",aluno[cont + 2].nome);
         }
     }
     if(achouAluno == FALSE){
-        printf("Nenhum aluno faz aniversário esse mês \n");
+        printf("Nenhum aluno faz aniversário nesse mês");
     }
-    //PROFESSOR
-    printf("Professores que fazem aniversário esse mês: ");
+    printf("\n");
+    //PROFESSORES
+    printf("Professores que fazem aniversário nesse mes: ");
     for(int cont = 0; cont < indiceProfessor; cont++){
-        if(professor[cont].tipo == 'm' && professor[cont + 2].dataNascimento.mes == mes){
+        if(professor[cont].tipo == 'd' && professor[cont].dataNascimento.mes == mesNum){
             achouProfessor = TRUE;
-            printf("%s ", professor[cont + 4].nome);
+            printf("%s ",professor[cont + 2].nome);
         }
     }
     if(achouProfessor == FALSE){
-        printf("Nenhum professor faz aniversário esse mês \n");
+        printf("Nenhum professor faz aniversário nesse mês");
     }
+    printf("\n");
 }
 
 void menu(){
