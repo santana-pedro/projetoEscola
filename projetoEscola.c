@@ -7,6 +7,8 @@
 #define TRUE -1
 #define FALSE -2
 
+//Alunos: Pedro Santana e Victor Gabriel
+
 int opcaoPrincipal, opcaoSecundaria, sair = 0, indiceAluno = 0, indiceProfessor = 0, indiceDisciplina = 0;
 
 typedef struct dma{
